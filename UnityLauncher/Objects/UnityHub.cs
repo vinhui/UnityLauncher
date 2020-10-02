@@ -47,11 +47,8 @@ namespace UnityLauncher
         /// <exception cref="InvalidDataException"></exception>
         public IEnumerable<UnityInstall> GetAllInstalled()
         {
-            var (output, error, exitCode) = RunHeadlessCommand("editors -i");
+            var (output, _, exitCode) = RunHeadlessCommand("editors -i");
             if (exitCode != 0)
-                yield break;
-
-            if (!string.IsNullOrWhiteSpace(error))
                 yield break;
 
             using var stringReader = new StringReader(output);
@@ -64,7 +61,7 @@ namespace UnityLauncher
 
                 var strings = line.Split(',');
                 if (strings.Length != 2)
-                    throw new InvalidDataException("Input data is not a version list");
+                    continue;
 
                 var version = strings[0].Trim();
                 var path = strings[1].Replace("installed at", "").Trim();
