@@ -98,6 +98,36 @@ namespace UnityLauncher
         }
 
         /// <summary>
+        /// Install a module into a specific unity version
+        /// </summary>
+        /// <param name="unityVersion">Unity version to install the modules into</param>
+        /// <param name="module">Module to install</param>
+        /// <param name="installChildModules">Install child modules of the passed modules</param>
+        /// <returns>Returns both if the installation was successful and the full output of the installation process</returns>
+        public (bool success, string output) InstallModule(string unityVersion, string module, bool installChildModules)
+        {
+            if (string.IsNullOrWhiteSpace(unityVersion) || string.IsNullOrWhiteSpace(module))
+                return (false, null);
+
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append("install-modules");
+            stringBuilder.Append(" --version ");
+            stringBuilder.Append(unityVersion);
+            stringBuilder.Append(" --module ");
+            stringBuilder.Append(module);
+
+            if (installChildModules)
+                stringBuilder.Append(" --childModules");
+
+            Logger.Info("Starting with installing modules");
+            var (output, error, exitCode) = RunHeadlessCommand(stringBuilder.ToString(), true);
+            if (exitCode != 0)
+                return (false, output);
+
+            return (!output.Contains("Error:"), output);
+        }
+
+        /// <summary>
         /// Start the Unity hub with the passed arguments
         /// </summary>
         /// <param name="command">Arguments to pass</param>

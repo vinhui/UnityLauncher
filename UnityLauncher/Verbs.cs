@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UnityLauncher
 {
@@ -104,14 +106,40 @@ namespace UnityLauncher
             var unityInstall = unityHub.GetInstall(version);
             if (unityInstall != null)
             {
-                Logger.Error("Unity version '{0}' seems to be installed already", version);
-                Environment.ExitCode = 1;
-                return;
+                if (!options.Modules.Any())
+                {
+                    Logger.Error("Unity version '{0}' seems to be installed already", version);
+                    Environment.ExitCode = 1;
+                    return;
+                }
             }
 
-            Logger.Debug("Version is not yet installed");
+            if (unityInstall == null)
+            {
+                Logger.Debug("Version is not yet installed");
 
-            InstallVersion(unityHub, version, changeset);
+                if (!InstallVersion(unityHub, version, changeset))
+                {
+                    Logger.Error("Failed to install Unity version '{0}'", version);
+                    Environment.ExitCode = 1;
+                    return;
+                }
+
+                Logger.Info("Base installation done");
+            }
+            else
+            {
+                Logger.Info("Unity version '{0}' is already installed", version);
+                Logger.Info("Continuing with the modules");
+            }
+
+            if (options.Modules.Any())
+            {
+                if (!InstallModules(options, unityHub, version)) 
+                    return;
+            }
+
+            Logger.Info("Installation complete");
         }
 
         private static bool InstallVersion(UnityHub unityHub, string version, string changeset)
@@ -133,6 +161,27 @@ namespace UnityLauncher
 
             Environment.ExitCode = success ? 0 : 1;
             return success;
+        }
+
+        private static bool InstallModules(InstallOptions options, UnityHub unityHub, string version)
+        {
+            Logger.Info("Beginning with installing modules. Include child modules: {0}",
+                options.InstallChildModules);
+            foreach (var module in options.Modules)
+            {
+                Logger.Info("Installing module '{0}'", module);
+                var (success, output) =
+                    unityHub.InstallModule(version, module, options.InstallChildModules);
+                if (!success)
+                {
+                    Logger.Error("Failed to install module '{0}'", module);
+                    Environment.ExitCode = 1;
+                    return false;
+                }
+            }
+
+            Logger.Info("Modules installation complete");
+            return true;
         }
     }
 }

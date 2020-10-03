@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CommandLine;
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -69,5 +70,12 @@ namespace UnityLauncher
         [Option(HelpText =
             "Changeset for the version, might be required if using '--version' and the version is not the latest minor version")]
         public string Changeset { get; set; }
+
+        [Option(HelpText = "Additional modules to be installed")]
+        public IEnumerable<string> Modules { get; set; }
+
+        [Option("install-child-modules",
+            HelpText = "Install all the child modules of the modules passed with '--modules'")]
+        public bool InstallChildModules { get; set; }
     }
 }
