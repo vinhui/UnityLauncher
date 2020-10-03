@@ -58,7 +58,8 @@ namespace UnityLauncher
                 "Will be ignored if '--wait-for-exit' is passed https://docs.unity3d.com/Manual/CommandLineArguments.html")]
         public string LogFile { get; set; }
 
-        [Option("silent-crashes")] public bool SilentCrashes { get; set; }
+        [Option("silent-crashes", HelpText = "https://docs.unity3d.com/Manual/CommandLineArguments.html")]
+        public bool SilentCrashes { get; set; }
 
         [Option(HelpText = "https://docs.unity3d.com/Manual/CommandLineArguments.html")]
         public bool Quit { get; set; }
