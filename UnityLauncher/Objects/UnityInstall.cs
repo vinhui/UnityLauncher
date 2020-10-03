@@ -1,17 +1,23 @@
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace UnityLauncher
 {
     public class UnityInstall
     {
         public string ExecutablePath { get; }
+        public string RootPath { get; }
         public string Version { get; }
 
         public UnityInstall(string executablePath, string version)
         {
             ExecutablePath = executablePath;
             Version = version;
+            RootPath = Directory.GetParent(executablePath).Parent?.FullName;
+            GetModules().Wait(1000);
         }
 
         /// <summary>
@@ -56,6 +62,18 @@ namespace UnityLauncher
             }
 
             return 0;
+        }
+
+        public async Task<UnityInstallModule[]> GetModules()
+        {
+            var path = Path.Combine(RootPath, "modules.json");
+            await using var fileStream = new FileStream(path, FileMode.Open);
+            var modules = await JsonSerializer.DeserializeAsync<UnityInstallModule[]>(fileStream,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            return modules;
         }
     }
 }
