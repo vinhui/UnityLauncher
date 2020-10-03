@@ -18,7 +18,7 @@ namespace UnityLauncher
 
             Logger.Info("Installed Unity versions:");
             foreach (var unityInstall in unityHub.GetAllInstalled())
-                Logger.Info("  - {0} ({1})", unityInstall.Version, unityInstall.Path);
+                Logger.Info("  - {0} ({1})", unityInstall.Version, unityInstall.ExecutablePath);
         }
 
         public static void Launch(LaunchOptions options)

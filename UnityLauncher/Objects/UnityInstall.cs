@@ -5,12 +5,12 @@ namespace UnityLauncher
 {
     public class UnityInstall
     {
-        public string Path { get; }
+        public string ExecutablePath { get; }
         public string Version { get; }
 
-        public UnityInstall(string path, string version)
+        public UnityInstall(string executablePath, string version)
         {
-            Path = path;
+            ExecutablePath = executablePath;
             Version = version;
         }
 
@@ -25,7 +25,7 @@ namespace UnityLauncher
             Logger.Info("Launching Unity '{0}' with the following arguments: '{1}'", Version, arguments);
 
             using var process = new Process();
-            process.StartInfo.FileName = Path;
+            process.StartInfo.FileName = ExecutablePath;
             process.StartInfo.Arguments = argumentsString;
             process.StartInfo.WindowStyle = arguments.BatchMode ? ProcessWindowStyle.Hidden : ProcessWindowStyle.Normal;
 
