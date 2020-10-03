@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CommandLine;
+using CommandLine.Text;
 
 // ReSharper disable ClassNeverInstantiated.Global
 
@@ -17,6 +18,11 @@ namespace UnityLauncher
     [Verb("list", HelpText = "List all installed Unity editors")]
     public class ListOptions : CliOptions
     {
+        [Usage]
+        public static IEnumerable<Example> Examples
+        {
+            get { yield return new Example("List installs", new ListOptions {HubPath = "~/UnityHub.AppImage"}); }
+        }
     }
 
     [Verb("launch", HelpText = "Launch a Unity project with the correct Unity version")]
@@ -56,6 +62,27 @@ namespace UnityLauncher
 
         [Option(HelpText = "https://docs.unity3d.com/Manual/CommandLineArguments.html")]
         public bool Quit { get; set; }
+
+        [Usage]
+        public static IEnumerable<Example> Examples
+        {
+            get
+            {
+                yield return new Example("Opening project", new LaunchOptions
+                {
+                    HubPath = "~/UnityHub.AppImage",
+                    ProjectPath = "~/projects/MyUnityProject"
+                });
+                yield return new Example("Opening project headless", new LaunchOptions
+                {
+                    HubPath = "~/UnityHub.AppImage",
+                    ProjectPath = "~/projects/MyUnityProject",
+                    Headless = true,
+                    ExecuteMethod = "My.Custom.Method",
+                    WaitForExit = true
+                });
+            }
+        }
     }
 
     [Verb("install", HelpText = "Install a new Unity version")]
@@ -77,5 +104,25 @@ namespace UnityLauncher
         [Option("install-child-modules",
             HelpText = "Install all the child modules of the modules passed with '--modules'")]
         public bool InstallChildModules { get; set; }
+
+        [Usage]
+        public static IEnumerable<Example> Examples
+        {
+            get
+            {
+                yield return new Example("Basic Install", new InstallOptions
+                {
+                    HubPath = "~/UnityHub.AppImage",
+                    Version = "202.1.4f1"
+                });
+                yield return new Example("Hub URI with modules", new InstallOptions
+                {
+                    HubPath = "~/UnityHub.AppImage",
+                    HubUri = "unityhub://2020.1.6f1/fc477ca6df10",
+                    Modules = new[] {"android", "webgl"},
+                    InstallChildModules = true
+                });
+            }
+        }
     }
 }
