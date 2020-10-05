@@ -70,8 +70,9 @@ namespace UnityLauncher
                 stringBuilder.Append(" -logFile -");
             else if (LogFile != null)
             {
-                stringBuilder.Append(" -logFile ");
+                stringBuilder.Append(" -logFile \"");
                 stringBuilder.Append(LogFile);
+                stringBuilder.Append("\"");
             }
 
             if (SilentCrashes) stringBuilder.Append(" -silent-crashes");
