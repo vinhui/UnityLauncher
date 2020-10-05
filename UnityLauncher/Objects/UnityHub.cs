@@ -27,7 +27,7 @@ namespace UnityLauncher
             return exists;
         }
 
-        public UnityInstall GetInstall(string version)
+        public UnityLocalInstall GetInstall(string version)
         {
             var unityInstalls = GetAllInstalled();
             foreach (var unityInstall in unityInstalls)
@@ -45,7 +45,7 @@ namespace UnityLauncher
         /// </summary>
         /// <returns></returns>
         /// <exception cref="InvalidDataException"></exception>
-        public IEnumerable<UnityInstall> GetAllInstalled()
+        public IEnumerable<UnityLocalInstall> GetAllInstalled()
         {
             var (output, _, exitCode) = RunHeadlessCommand("editors -i");
             if (exitCode != 0)
@@ -65,7 +65,7 @@ namespace UnityLauncher
 
                 var version = strings[0].Trim();
                 var path = strings[1].Replace("installed at", "").Trim();
-                yield return new UnityInstall(path, version);
+                yield return new UnityLocalInstall(path, version);
             } while (line != null);
         }
 

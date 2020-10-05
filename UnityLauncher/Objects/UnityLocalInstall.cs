@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace UnityLauncher
 {
-    public class UnityInstall
+    public class UnityLocalInstall
     {
         public string ExecutablePath { get; }
         public string RootPath { get; }
         public string Version { get; }
 
-        public UnityInstall(string executablePath, string version)
+        public UnityLocalInstall(string executablePath, string version)
         {
             ExecutablePath = executablePath;
             Version = version;
@@ -64,11 +64,11 @@ namespace UnityLauncher
             return 0;
         }
 
-        public async Task<UnityInstallModule[]> GetModules()
+        public async Task<UnityLocalInstallModule[]> GetModules()
         {
             var path = Path.Combine(RootPath, "modules.json");
             await using var fileStream = new FileStream(path, FileMode.Open);
-            var modules = await JsonSerializer.DeserializeAsync<UnityInstallModule[]>(fileStream,
+            var modules = await JsonSerializer.DeserializeAsync<UnityLocalInstallModule[]>(fileStream,
                 new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true

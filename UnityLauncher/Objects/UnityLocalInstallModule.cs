@@ -1,6 +1,6 @@
 namespace UnityLauncher
 {
-    public class UnityInstallModule
+    public class UnityLocalInstallModule
     {
         public string Id { get; set; }
         public string Name { get; set; }
