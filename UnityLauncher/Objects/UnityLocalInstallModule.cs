@@ -1,4 +1,4 @@
-namespace UnityLauncher
+namespace UnityLauncher.Objects
 {
     public class UnityLocalInstallModule
     {

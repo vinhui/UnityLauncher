@@ -4,7 +4,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace UnityLauncher
+namespace UnityLauncher.Objects
 {
     public class UnityLocalInstall
     {

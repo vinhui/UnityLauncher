@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace UnityLauncher
+namespace UnityLauncher.Objects
 {
     public class UnityHub
     {

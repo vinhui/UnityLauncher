@@ -1,3 +1,5 @@
+using UnityLauncher.Objects;
+
 namespace UnityLauncher
 {
     public static class Helpers

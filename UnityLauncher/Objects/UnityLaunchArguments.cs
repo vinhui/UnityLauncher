@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace UnityLauncher
+namespace UnityLauncher.Objects
 {
     public interface IUnityArguments
     {

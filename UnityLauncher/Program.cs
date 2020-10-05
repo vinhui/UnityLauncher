@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using UnityLauncher.Objects;
 
 namespace UnityLauncher
 {

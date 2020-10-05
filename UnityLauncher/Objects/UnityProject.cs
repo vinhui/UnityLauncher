@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace UnityLauncher
+namespace UnityLauncher.Objects
 {
     public class UnityProject
     {

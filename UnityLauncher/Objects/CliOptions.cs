@@ -4,7 +4,7 @@ using CommandLine.Text;
 
 // ReSharper disable ClassNeverInstantiated.Global
 
-namespace UnityLauncher
+namespace UnityLauncher.Objects
 {
     public abstract class CliOptions
     {
